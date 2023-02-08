@@ -8,8 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TicketSystem.DB_Classes;
-using static TicketSystem.DB_Classes.ConexaoDB;
 
 namespace TicketSystem
 {
@@ -26,7 +24,7 @@ namespace TicketSystem
         {
 
         }
-        ConexaoDB conexao = new ConexaoDB();
+        
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -35,12 +33,15 @@ namespace TicketSystem
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string connectionString = @"Data Source=DESKTOP-O4SMKJK\SQLEXPRESS;Failover Partner=DESKTOP-O4SMKJK;Initial Catalog=ticketsystem;Integrated Security=True";
+
             Boolean tryLogin = false;
             //int user_id = 0;
             string login = tbox_login.Text;
             string senha = tbox_pass.Text;
 
-            if (login.Equals("") || senha.Equals("")){
+            if (login.Equals("") || senha.Equals(""))
+            {
                 tryLogin = false;
                 MessageBox.Show("Login ou senha inválidos.");
             }
@@ -48,37 +49,36 @@ namespace TicketSystem
             {
                 try
                 {
-                    conexao.conn();
-                    string sql = "SELECT * FROM users WHERE users_login = @login && users_pass = @senha";
-                    SqlCommand command = new SqlCommand(sql);
-                    command.Parameters.AddWithValue("@login", login);
-                    command.Parameters.AddWithValue("@senha", senha);
+                    string sql = "SELECT * FROM users WHERE users_login = @login AND users_pass = @senha";
+                    
+                    using (var connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+                        using (var command = new SqlCommand(sql, connection))
+                        {
+                            command.Parameters.AddWithValue("@login", login);
+                            command.Parameters.AddWithValue("@senha", senha);
 
-                    SqlDataReader reader = command.ExecuteReader();
-                    if (reader.HasRows)
-                    {
-                        Console.WriteLine("Login");
-                        tryLogin = true;
+                            using (var reader = command.ExecuteReader())
+                            {
+                                tryLogin = reader.HasRows;
+                                if (tryLogin)
+                                {
+                                    MessageBox.Show("Popup next window = " + login + " // " + senha);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Login ou senha inválidos.");
+                                }
+                            }
+                        }
                     }
-                    else
-                    {
-                        Console.WriteLine("Miou o role");
-                        tryLogin = false;
-                    }
-                } catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
                 }
-                if (tryLogin == true)
+                catch (SqlException ex)
                 {
-                    Console.WriteLine("Abrir tela");
-                }
-                else if(tryLogin == false)
-                {
-                    MessageBox.Show("Login ou senha inválidos.");
+                    MessageBox.Show("Catch: " + ex.Message);
                 }
             }
-            
         }
     }
 }

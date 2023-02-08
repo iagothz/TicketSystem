@@ -69,7 +69,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DB Classes\ConexaoDB.cs" />
     <Compile Include="Forms\Form_Login.cs">
       <SubType>Form</SubType>
     </Compile>
