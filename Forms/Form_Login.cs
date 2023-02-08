@@ -64,7 +64,7 @@ namespace TicketSystem
                                 tryLogin = reader.HasRows;
                                 if (tryLogin)
                                 {
-                                    MessageBox.Show("Popup next window = " + login + " // " + senha);
+                                    MessageBox.Show("Popup next window = " + tryLogin);
                                 }
                                 else
                                 {
