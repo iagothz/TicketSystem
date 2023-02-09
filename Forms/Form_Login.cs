@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TicketSystem.Forms;
 
 namespace TicketSystem
 {
@@ -65,6 +66,9 @@ namespace TicketSystem
                                 if (tryLogin)
                                 {
                                     MessageBox.Show("Popup next window = " + tryLogin);
+                                    Form_main main = new Form_main();
+                                    main.Show();
+                                    this.Hide();
                                 }
                                 else
                                 {
