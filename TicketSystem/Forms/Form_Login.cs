@@ -14,7 +14,8 @@ namespace TicketSystem
 {
     public partial class Form_Login : Form
     {
-        
+
+        public static string user_id = "0";
 
         public Form_Login()
         {
@@ -37,7 +38,7 @@ namespace TicketSystem
             string connectionString = @"Data Source=DESKTOP-O4SMKJK\SQLEXPRESS;Failover Partner=DESKTOP-O4SMKJK;Initial Catalog=ticketsystem;Integrated Security=True";
 
             Boolean tryLogin = false;
-            //int user_id = 0;
+            
             string login = tbox_login.Text;
             string senha = tbox_pass.Text;
 
@@ -65,8 +66,9 @@ namespace TicketSystem
                                 tryLogin = reader.HasRows;
                                 if (tryLogin)
                                 {
+                                    user_id = "1";
                                     MessageBox.Show("Popup next window = " + tryLogin);
-                                    Form_main main = new Form_main();
+                                    Form_main main = new Form_main(user_id);
                                     main.Show();
                                     this.Hide();
                                 }

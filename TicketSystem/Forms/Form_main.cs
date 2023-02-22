@@ -12,12 +12,15 @@ namespace TicketSystem.Forms
 {
     public partial class Form_main : Form
     {
-        public Form_main()
+        static string frm_user_id;
+        public Form_main(string user_id)
         {
             InitializeComponent();
+            string frm_user_id = user_id;
+            label1.Text = frm_user_id;
         }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        string connectionString = @"Data Source=DESKTOP-O4SMKJK\SQLEXPRESS;Failover Partner=DESKTOP-O4SMKJK;Initial Catalog=ticketsystem;Integrated Security=True";
+        private void Form_main_Load(object sender, EventArgs e)
         {
             
         }
@@ -25,6 +28,11 @@ namespace TicketSystem.Forms
         private void btn_novo_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Chamado criado com sucesso!");
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
